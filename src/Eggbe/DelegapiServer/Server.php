@@ -20,7 +20,7 @@ class Server {
 	/**
 	 * @const string
 	 */
-	const LISTEN_SESSION = 'auth';
+	const LISTEN_SESSION = 'session';
 
 	/**
 	 * @var array
