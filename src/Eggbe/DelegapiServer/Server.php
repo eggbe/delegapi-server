@@ -35,7 +35,7 @@ class Server {
 	 */
 	public function listen($name, AListener $Listener){
 		if (!in_array(($name = strtolower(trim($name))), [self::LISTEN_ACTION,
-			self::LISTEN_SECURE])) {
+			self::LISTEN_SECURE, self::LISTEN_SESSION])) {
 				throw new \Exception('Unknown listening "' . $name . '"!');
 		}
 
