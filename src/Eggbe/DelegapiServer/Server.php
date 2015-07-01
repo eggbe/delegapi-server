@@ -18,6 +18,11 @@ class Server {
 	const LISTEN_ACTION = 'action';
 
 	/**
+	 * @const string
+	 */
+	const LISTEN_SESSION = 'auth';
+
+	/**
 	 * @var array
 	 */
 	private $Listeners = [];
@@ -58,6 +63,16 @@ class Server {
 		$Bridge->on('hash', function($hash){
 			return array_key_exists(self::LISTEN_SECURE, $this->Listeners)
 				? $this->Listeners[self::LISTEN_SECURE]($hash) : false;
+		});
+
+		/**
+		 * The session values is specific for the any application.
+		 * It should be implemented as a listener too.
+		 * We just throw event here.
+		 */
+		$Bridge->on('session', function($hash){
+			return array_key_exists(self::LISTEN_SESSION, $this->Listeners)
+				? $this->Listeners[self::LISTEN_SESSION]($hash) : false;
 		});
 
 		/**
