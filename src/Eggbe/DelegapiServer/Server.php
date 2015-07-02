@@ -20,7 +20,7 @@ class Server {
 	/**
 	 * @const string
 	 */
-	const LISTEN_SESSION = 'session';
+	const LISTEN_ATTACH = 'attache';
 
 	/**
 	 * @var array
@@ -35,7 +35,7 @@ class Server {
 	 */
 	public function listen($name, AListener $Listener){
 		if (!in_array(($name = strtolower(trim($name))), [self::LISTEN_ACTION,
-			self::LISTEN_SECURE, self::LISTEN_SESSION])) {
+			self::LISTEN_SECURE, self::LISTEN_ATTACH])) {
 				throw new \Exception('Unknown listening "' . $name . '"!');
 		}
 
@@ -70,9 +70,9 @@ class Server {
 		 * It should be implemented as a listener too.
 		 * We just throw event here.
 		 */
-		$Bridge->on('session', function($hash){
-			return array_key_exists(self::LISTEN_SESSION, $this->Listeners)
-				? $this->Listeners[self::LISTEN_SESSION]($hash) : false;
+		$Bridge->on('attachments', function($hash){
+			return array_key_exists(self::LISTEN_ATTACH, $this->Listeners)
+				? $this->Listeners[self::LISTEN_ATTACH]($hash) : false;
 		});
 
 		/**
