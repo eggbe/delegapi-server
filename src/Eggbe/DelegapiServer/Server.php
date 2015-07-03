@@ -1,7 +1,7 @@
 <?php
 namespace Eggbe\DelegapiServer;
 
-use \Eggbe\Helpers\Arr;
+use \Eggbe\Helper\Arr;
 use \Eggbe\DelegapiServer\Bridge\SecureBridge;
 use \Eggbe\DelegapiServer\Abstracts\AListener;
 
