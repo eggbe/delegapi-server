@@ -17,7 +17,7 @@ class SecureBridge extends Bridge {
 		});
 
 		$this->on('hash', function ($hash) {
-			if (!Hash::validate($hash, Hash::VALIDATE_MD5)) {
+			if (!Hash::validate($hash, Hash::HAST_TYPE_MD5)) {
 				throw new Exception('Invalid hash format!');
 			}
 		});
