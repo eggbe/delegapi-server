@@ -2,7 +2,7 @@
 	"name": "eggbe/delegapi-server",
 	"version": "1.2.0",
 	"type": "library",
-	"keywords": ["rest", "api", "client", "server"],
+	"keywords": ["rest", "api", "server", "client-server"],
 	"description": "Server part of the library to construct a client-server architecture.",
 	"license": "MIT",
 	"authors": [
