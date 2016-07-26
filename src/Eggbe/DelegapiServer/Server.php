@@ -2,7 +2,8 @@
 namespace Eggbe\DelegapiServer;
 
 use \Eggbe\Helper\Arr;
-use \Eggbe\DelegapiServer\Bridge\SecureBridge;
+use \Eggbe\ServerBridge\Bridge;
+
 use \Eggbe\DelegapiServer\Abstracts\AListener;
 
 class Server {
@@ -10,17 +11,12 @@ class Server {
 	/**
 	 * @const srtring
 	 */
-	const LISTEN_SECURE = 'secure';
+	const ON_AUTHORIZE = 'onAuthorize';
 
 	/**
 	 * @const string
 	 */
-	const LISTEN_ACTION = 'action';
-
-	/**
-	 * @const string
-	 */
-	const LISTEN_ATTACH = 'attache';
+	const ON_EXECUTE = 'onExecute';
 
 	/**
 	 * @var array
@@ -34,17 +30,16 @@ class Server {
 	 * @throws \Exception
 	 */
 	public function listen($name, AListener $Listener){
-		if (!in_array(($name = strtolower(trim($name))), [self::LISTEN_ACTION,
-			self::LISTEN_SECURE, self::LISTEN_ATTACH])) {
-				throw new \Exception('Unknown listening "' . $name . '"!');
+		if (!in_array(($name = strtolower(trim($name))), [self::ON_EXECUTE,
+			self::ON_AUTHORIZE])) {
+				throw new \Exception('Unknown listening action "' . $name . '"!');
 		}
 
 		if (array_key_exists($name, $this->Listeners)){
-			throw new \Exception('Can not reassign listener for listening "' . $name . '"!');
+			throw new \Exception('Can not reassign listener for listening action "' . $name . '"!');
 		}
 
 		$this->Listeners[$name] = $Listener;
-
 		return $this;
 	}
 
@@ -53,36 +48,37 @@ class Server {
 	 * @return string
 	 */
 	public function dispatch(array $Input){
-		$Bridge = new SecureBridge();
+		$Bridge = new Bridge();
 
 		/**
-		 * The method of the hash validation is specific for the any application.
-		 * It should be implemented as a listener.
-		 * We just throw event here.
+		 *	We have to provide the secret key to be authorized.
+		 *  If authorization key is not found an exception will thrown immediately.
 		 */
-		$Bridge->on('hash', function($hash){
-			return array_key_exists(self::LISTEN_SECURE, $this->Listeners)
-				? $this->Listeners[self::LISTEN_SECURE]($hash) : false;
+		$Bridge->on('!key', function () {
+			throw new Exception('Access key is not found!');
 		});
 
 		/**
-		 * The session values is specific for the any application.
-		 * It should be implemented as a listener too.
-		 * We just throw event here.
+		 * If an authorisation key is provided it have to been checked via special listener method.
+		 * This method should return a not false value to continue. Otherwise an exception will be thrown immediately.
+		 *
+		 * In case when the listener is not assigned all keys will be accepted.
 		 */
-		$Bridge->on('attachments', function($hash){
-			return array_key_exists(self::LISTEN_ATTACH, $this->Listeners)
-				? $this->Listeners[self::LISTEN_ATTACH]($hash) : false;
+		$Bridge->on('key', function($hash){
+			if (key_exists(self::ON_AUTHORIZE, $this->Listeners) && !$this->Listeners[self::ON_AUTHORIZE]($key)){
+				throw new \Exception('Access denied!');
+			}
 		});
 
 		/**
-		 * This is the main action. All logic here.
-		 * It should be implemented as a listener too.
-		 * We just propagate event here.
+		 * If authorization was passed the server will try to find necessary information
+		 * about the requested action here.
+		 *
+		 * The action name and namespace are required.
 		 */
 		$Bridge->on(['namespace', 'method', ':params'], function($namespace, $method, $Params = []){
-			return array_key_exists(self::LISTEN_ACTION, $this->Listeners)
-				? $this->Listeners[self::LISTEN_ACTION]($namespace, $method, $Params) : false;
+			return array_key_exists(self::ON_EXECUTE, $this->Listeners)
+				? $this->Listeners[self::ON_EXECUTE]($namespace, $method, $Params) : false;
 		});
 
 		return $Bridge->dispatch($Input);
