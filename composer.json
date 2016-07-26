@@ -1,9 +1,9 @@
 {
 	"name": "eggbe/delegapi-server",
-	"version": "1.2.0",
+	"version": "2.0.0",
 	"type": "library",
-	"keywords": ["rest", "api", "server", "client-server"],
-	"description": "Server part of the library to construct a client-server architecture.",
+	"keywords": ["rest", "api", "server-side", "server-to-server", "high-performance"],
+	"description": "The server part of the library to construct a server-to-server architecture.",
 	"license": "MIT",
 	"authors": [
 		{
@@ -18,8 +18,8 @@
 		"eggbe/hash-store": "dev-master"
 	},
 	"autoload": {
-		"psr-0": {
-			"Eggbe\\DelegapiServer": "src/"
+		"psr-4": {
+			"Eggbe\\DelegapiServer\\": "src/"
 		}
 	}
 }
