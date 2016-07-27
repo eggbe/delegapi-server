@@ -33,7 +33,7 @@ class Server {
 		if (!is_subclass_of($Listener, AListener::class) && !is_a($Listener, \Closure::class)){
 			throw new \Exception('Invalid listener for listing action "' . $name . '"!');
 		}
-		if (!in_array(($name = strtolower(trim($name))), [self::ON_EXECUTE, self::ON_AUTHORIZE])) {
+		if (!in_array($name, [self::ON_EXECUTE, self::ON_AUTHORIZE])) {
 			throw new \Exception('Unknown listening action "' . $name . '"!');
 		}
 
@@ -66,7 +66,7 @@ class Server {
 		 *
 		 * In case when the listener is not assigned all keys will be accepted.
 		 */
-		$Bridge->on('key', function ($hash) {
+		$Bridge->on('key', function ($key) {
 			if (key_exists(self::ON_AUTHORIZE, $this->Listeners) && !$this->Listeners[self::ON_AUTHORIZE]($key)) {
 				throw new \Exception('Access denied!');
 			}
