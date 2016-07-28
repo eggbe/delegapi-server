@@ -57,7 +57,7 @@ class Server {
 		 *  If authorization key is not found an exception will thrown immediately.
 		 */
 		$Bridge->on('!token', function () {
-			throw new Exception('Access key is not found!');
+			throw new \Exception('Access key is not found!');
 		});
 
 		/**
