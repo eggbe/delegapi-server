@@ -11,7 +11,7 @@ class Server {
 	/**
 	 * @const srtring
 	 */
-	const ON_AUTHORIZE = 'onAuthorize';
+	const ON_TOKEN = 'onAuthorize';
 
 	/**
 	 * @const string
@@ -33,7 +33,7 @@ class Server {
 		if (!is_subclass_of($Listener, AListener::class) && !is_a($Listener, \Closure::class)){
 			throw new \Exception('Invalid listener for listing action "' . $name . '"!');
 		}
-		if (!in_array($name, [self::ON_EXECUTE, self::ON_AUTHORIZE])) {
+		if (!in_array($name, [self::ON_EXECUTE, self::ON_TOKEN])) {
 			throw new \Exception('Unknown listening action "' . $name . '"!');
 		}
 
@@ -56,7 +56,7 @@ class Server {
 		 *    We have to provide the secret key to be authorized.
 		 *  If authorization key is not found an exception will thrown immediately.
 		 */
-		$Bridge->on('!key', function () {
+		$Bridge->on('!token', function () {
 			throw new Exception('Access key is not found!');
 		});
 
@@ -66,8 +66,8 @@ class Server {
 		 *
 		 * In case when the listener is not assigned all keys will be accepted.
 		 */
-		$Bridge->on('key', function ($key) {
-			if (key_exists(self::ON_AUTHORIZE, $this->Listeners) && !$this->Listeners[self::ON_AUTHORIZE]($key)) {
+		$Bridge->on('token', function ($key) {
+			if (key_exists(self::ON_TOKEN, $this->Listeners) && !$this->Listeners[self::ON_TOKEN]($key)) {
 				throw new \Exception('Access denied!');
 			}
 		});
