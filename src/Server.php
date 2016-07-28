@@ -96,17 +96,22 @@ class Server {
 
 		/**
 		 * To have ability do something with response before it will be send we need
-		 * assign a special handler. We result returned from this handler will cast to a string.
+		 * assign a special handler.
+		 *
+		 * Any result returned from this handler will
+		 * replace the original response.
 		 */
 		if (key_exists(self::ON_RESPONSE, $this->Listeners)) {
-			return (string)$this->Listeners[self::ON_EXECUTE]($Response);
+			$Response = $this->Listeners[self::ON_RESPONSE]($Response);
 		}
 
 		/**
-		 * If the handler isn't assigned the response will be try
-		 * to cast itself  to a string.
+		 * If no handler is assigned the response will be returned as is.
+		 *
+		 * Please, pay attention that this library doesn't support any kinds
+		 * of automatic conversions to JSON or any other format.
 		 */
-		return (string)$Respons;
+		return $Response;
 	}
 
 }
