@@ -11,12 +11,17 @@ class Server {
 	/**
 	 * @const srtring
 	 */
-	const ON_TOKEN = 'onAuthorize';
+	const ON_TOKEN = 'onToken';
 
 	/**
 	 * @const string
 	 */
 	const ON_EXECUTE = 'onExecute';
+
+	/**
+	 * @const string
+	 */
+	const ON_RESPONSE = 'onResponse';
 
 	/**
 	 * @var array
@@ -30,10 +35,10 @@ class Server {
 	 * @throws \Exception
 	 */
 	public function listen($name, $Listener) {
-		if (!is_subclass_of($Listener, AListener::class) && !is_a($Listener, \Closure::class)){
+		if (!is_subclass_of($Listener, AListener::class) && !is_a($Listener, \Closure::class)) {
 			throw new \Exception('Invalid listener for listing action "' . $name . '"!');
 		}
-		if (!in_array($name, [self::ON_EXECUTE, self::ON_TOKEN])) {
+		if (!in_array($name, [self::ON_EXECUTE, self::ON_TOKEN, self::ON_RESPONSE])) {
 			throw new \Exception('Unknown listening action "' . $name . '"!');
 		}
 
@@ -83,7 +88,25 @@ class Server {
 				? $this->Listeners[self::ON_EXECUTE]($namespace, $method, $Params) : false;
 		});
 
-		return $Bridge->dispatch($Input);
+		/**
+		 * The type of response is undefined by default so we shouldn't have any
+		 * worries about typecasting when we implement any business logic.
+		 */
+		$Response = $Bridge->dispatch($Input);
+
+		/**
+		 * To have ability do something with response before it will be send we need
+		 * assign a special handler. We result returned from this handler will cast to a string.
+		 */
+		if (key_exists(self::ON_RESPONSE, $this->Listeners)) {
+			return (string)$this->Listeners[self::ON_EXECUTE]($Response);
+		}
+
+		/**
+		 * If the handler isn't assigned the response will be try
+		 * to cast itself  to a string.
+		 */
+		return (string)$Respons;
 	}
 
 }

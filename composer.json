@@ -1,6 +1,6 @@
 {
 	"name": "eggbe/delegapi-server",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"type": "library",
 	"keywords": ["rest", "api", "server-side", "server-to-server", "high-performance"],
 	"description": "The server part of the library to construct applications based on  the server-to-server architecture.",
