@@ -19,11 +19,6 @@ class Server {
 	const ON_EXECUTE = 'onExecute';
 
 	/**
-	 * @const string
-	 */
-	const ON_RESPONSE = 'onResponse';
-
-	/**
 	 * @var array
 	 */
 	private $Listeners = [];
@@ -89,29 +84,10 @@ class Server {
 		});
 
 		/**
-		 * The type of response is undefined by default so we shouldn't have any
-		 * worries about typecasting when we implement any business logic.
-		 */
-		$Response = $Bridge->dispatch($Input);
-
-		/**
-		 * To have ability do something with response before it will be send we need
-		 * assign a special handler.
-		 *
-		 * Any result returned from this handler will
-		 * replace the original response.
-		 */
-		if (key_exists(self::ON_RESPONSE, $this->Listeners)) {
-			$Response = $this->Listeners[self::ON_RESPONSE]($Response);
-		}
-
-		/**
-		 * If no handler is assigned the response will be returned as is.
-		 *
 		 * Please, pay attention that this library doesn't support any kinds
 		 * of automatic conversions to JSON or any other format.
 		 */
-		return $Response;
+		return $Bridge->dispatch($Input);
 	}
 
 }

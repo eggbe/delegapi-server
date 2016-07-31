@@ -1,9 +1,4 @@
-* 2.0.1 (2016-07-28)
-
-  * New handler Server::ON_RESPONSE added
-
-
-* 2.0.0 (2016-07-24)
+* 2.0.0 (2016-07-28)
 
   * Autoload method was changed to psr-4
   * All code was totally refactored.
@@ -14,10 +9,12 @@
  * removed constant Server::LISTEN_SESSION
  * added constant Server::LISTEN_ATTACH
 
+
 * 1.1.0
 
  * added constant Server::LISTEN_SESSION
  * now we can assign an listener for session data!
+
 
 * 1.0.0
 
