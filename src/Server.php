@@ -33,7 +33,7 @@ class Server {
 		if (!is_subclass_of($Listener, AListener::class) && !is_a($Listener, \Closure::class)) {
 			throw new \Exception('Invalid listener for listing action "' . $name . '"!');
 		}
-		if (!in_array($name, [self::ON_EXECUTE, self::ON_TOKEN, self::ON_RESPONSE])) {
+		if (!in_array($name, [self::ON_EXECUTE, self::ON_TOKEN])) {
 			throw new \Exception('Unknown listening action "' . $name . '"!');
 		}
 
