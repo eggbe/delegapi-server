@@ -1,7 +1,12 @@
+* 3.0.0 (2017-02-17)
+
+  * [incompatible] migrated to php >= 7.0.0
+  * [incompatible] refactoring
+
+
 * 2.0.0 (2016-07-28)
 
-  * Autoload method was changed to psr-4
-  * All code was totally refactored.
+  * Now requests always sends only via POST method.
 
 
 * 1.2.0

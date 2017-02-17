@@ -56,7 +56,7 @@ class Server {
 		 * We have to provide the security token to be authorized.
 		 * If authorization token is not found an exception will thrown immediately.
 		 */
-		$Bridge->on('!token', function () {
+		$Bridge->on('!key', function () {
 			throw new \Exception('Access token is not found!');
 		});
 
@@ -66,7 +66,7 @@ class Server {
 		 *
 		 * In case when the listener is not assigned all keys will be accepted.
 		 */
-		$Bridge->on('token', function ($token) {
+		$Bridge->on('key', function ($token) {
 			if (key_exists(self::ON_TOKEN, $this->Listeners) && !$this->Listeners[self::ON_TOKEN]($token)) {
 				throw new \Exception('Access denied!');
 			}

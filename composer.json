@@ -1,6 +1,6 @@
 {
 	"name": "eggbe/delegapi-server",
-	"version": "2.0.1",
+	"version": "3.0.0",
 	"type": "library",
 	"keywords": ["rest", "api", "server-side", "server-to-server", "high-performance"],
 	"description": "The server part of the library to construct applications based on  the server-to-server architecture.",
@@ -12,7 +12,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5.0",
+		"php": ">=7.0.0",
 		"eggbe/helpers": "dev-master",
 		"eggbe/server-bridge": "dev-master",
 		"eggbe/hash-store": "dev-master"
