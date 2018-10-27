@@ -13,9 +13,9 @@
 	],
 	"require": {
 		"php": ">=7.0.0",
-		"eggbe/helpers": "dev-master",
-		"eggbe/server-bridge": "dev-master",
-		"eggbe/hash-store": "dev-master"
+		"able/helpers": "dev-master",
+		"eggbe/hash-store": "dev-master",
+		"eggbe/server-bridge": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
